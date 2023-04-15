@@ -30,7 +30,7 @@ const HomeScreen = () => {
     <View style={styles.screenContainer}>
       <Text style={styles.title}> Escanea el QR</Text>
       <View style={styles.cameraContainer}>
-        {openCamera && (
+        {openCamera ? (
           <Camera
             style={styles.cameraPreview}
             ratio="1:1"
@@ -39,6 +39,10 @@ const HomeScreen = () => {
             }}
             onBarCodeScanned={hasPermission ? handleBarCodeScanned : undefined}
           />
+        ) : (
+          <Text style={styles.cameraInfoMessage}>
+            Presione el botón para escanear
+          </Text>
         )}
         <Image
           source={require('../assets/qrFrame.png')}
@@ -63,18 +67,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#D9D9D9',
     height: 300,
     aspectRatio: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cameraPreview: {
     height: 300,
     aspectRatio: 1,
   },
   qrFrame: {
-    height: 340,
-    width: 340,
-    top: -20,
-    left: -20,
+    height: 300,
+    width: 300,
     position: 'absolute',
-    borderRadius: 20,
   },
   qrButton: {
     width: 78,
@@ -87,6 +90,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
+  },
+  cameraInfoMessage: {
+    fontSize: 28,
+    textAlign: 'center',
   },
 });
 
