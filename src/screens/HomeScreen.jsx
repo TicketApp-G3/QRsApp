@@ -17,7 +17,7 @@ const HomeScreen = () => {
 
   const handlePressScanButton = async () => {
     if (!hasPermission) await getCameraPermissions();
-    setOpenCamera(true);
+    setOpenCamera(!openCamera);
   };
 
   const handleBarCodeScanned = ({ data }) => {
