@@ -3,12 +3,15 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import QRCode from 'react-native-qrcode-svg';
+import ScanResultModal from '../components/ScanResultModal';
 
 const HomeScreen = () => {
   const [hasPermission, setHasPermission] = useState(false);
   const [qrData, setQrData] = useState();
   const [scanned, setScanned] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const getCameraPermissions = async () => {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -21,9 +24,14 @@ const HomeScreen = () => {
   };
 
   const handleBarCodeScanned = ({ data }) => {
-    setOpenCamera(false);
-    setQrData(data);
+    setQrData(JSON.parse(data));
     setScanned(true);
+    setOpenCamera(false);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
   };
 
   return (
@@ -49,9 +57,17 @@ const HomeScreen = () => {
           style={styles.qrFrame}
         />
       </View>
+
       <TouchableOpacity onPress={handlePressScanButton} style={styles.qrButton}>
         <Icon name="qr-code" color="#FFFFFF" size={45} />
       </TouchableOpacity>
+
+      <ScanResultModal
+        data={qrData}
+        visible={openModal}
+        onClose={handleCloseModal}
+        error=""
+      />
     </View>
   );
 };
@@ -83,7 +99,7 @@ const styles = StyleSheet.create({
     width: 78,
     aspectRatio: 1,
     borderRadius: 100,
-    backgroundColor: 'red',
+    backgroundColor: '#DB162F',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
