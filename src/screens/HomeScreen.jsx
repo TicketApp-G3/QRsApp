@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import ScanResultModal from '../components/ScanResultModal';
 import apiProvider from '../api/apiProvider';
+import IconButton from '../components/IconButton';
 
 const HomeScreen = () => {
   const [hasPermission, setHasPermission] = useState(false);
@@ -70,9 +70,7 @@ const HomeScreen = () => {
         />
       </View>
 
-      <TouchableOpacity onPress={handlePressScanButton} style={styles.qrButton}>
-        <Icon name="qr-code" color="#FFFFFF" size={45} />
-      </TouchableOpacity>
+      <IconButton onPress={handlePressScanButton} iconName="qr-code" />
 
       <ScanResultModal
         data={qrData}
@@ -105,15 +103,6 @@ const styles = StyleSheet.create({
     height: 300,
     width: 300,
     position: 'absolute',
-  },
-  qrButton: {
-    width: 78,
-    aspectRatio: 1,
-    borderRadius: 100,
-    backgroundColor: '#DB162F',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title: {
     fontSize: 32,

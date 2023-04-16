@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { dateTimeFormatter } from '../utils/formatters';
+import IconButton from './IconButton';
 
 const ScanResultModal = ({ visible, onClose, data = {} }) => {
   console.log(data);
@@ -61,9 +62,11 @@ const ScanResultModal = ({ visible, onClose, data = {} }) => {
           </View>
         )}
 
-        <TouchableOpacity onPress={onClose} style={styles.backButton}>
-          <Icon name="home" color="#FFFFFF" size={45} />
-        </TouchableOpacity>
+        <IconButton
+          onPress={onClose}
+          style={styles.backButton}
+          iconName="home"
+        />
       </View>
     </Modal>
   );
@@ -111,13 +114,6 @@ const styles = StyleSheet.create({
     fontWeight: 300,
   },
   backButton: {
-    width: 78,
-    aspectRatio: 1,
-    borderRadius: 100,
-    backgroundColor: '#DB162F',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     position: 'absolute',
     bottom: 40,
     alignSelf: 'center',
