@@ -5,7 +5,6 @@ import { dateTimeFormatter } from '../utils/formatters';
 import IconButton from './IconButton';
 
 const ScanResultModal = ({ visible, onClose, data = {} }) => {
-  console.log(data);
   const { eventId, eventTitle, status, userId, userName, error } = data;
   const currentDate = dateTimeFormatter(new Date());
 

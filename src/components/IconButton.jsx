@@ -2,7 +2,6 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const IconButton = ({ onPress, iconName, size = 45, style }) => {
-  console.log(style);
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
       <Icon name={iconName} color="#FFFFFF" size={size} />
