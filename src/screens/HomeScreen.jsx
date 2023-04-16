@@ -3,13 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import QRCode from 'react-native-qrcode-svg';
 import ScanResultModal from '../components/ScanResultModal';
+import apiProvider from '../api/apiProvider';
 
 const HomeScreen = () => {
   const [hasPermission, setHasPermission] = useState(false);
   const [qrData, setQrData] = useState();
-  const [scanned, setScanned] = useState(false);
   const [openCamera, setOpenCamera] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
@@ -23,15 +22,28 @@ const HomeScreen = () => {
     setOpenCamera(!openCamera);
   };
 
-  const handleBarCodeScanned = ({ data }) => {
-    setQrData(JSON.parse(data));
-    setScanned(true);
-    setOpenCamera(false);
-    setOpenModal(true);
-  };
-
   const handleCloseModal = () => {
     setOpenModal(false);
+  };
+
+  const handleBarCodeScanned = async ({ data }) => {
+    const { id } = JSON.parse(data);
+    setOpenCamera(false);
+
+    await apiProvider.scanQR({
+      ticketId: id,
+      onSuccess: (response) => {
+        setQrData(JSON.parse(data));
+        setOpenModal(true);
+        console.log(response);
+      },
+    });
+  };
+
+  const mockedBarCodeScanned = ({ data }) => {
+    setOpenCamera(false);
+    setQrData({ ...JSON.parse(data), error: 'El QR ya fue escaneado' });
+    setOpenModal(true);
   };
 
   return (
@@ -45,7 +57,7 @@ const HomeScreen = () => {
             barCodeScannerSettings={{
               barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
             }}
-            onBarCodeScanned={hasPermission ? handleBarCodeScanned : undefined}
+            onBarCodeScanned={hasPermission ? mockedBarCodeScanned : undefined}
           />
         ) : (
           <Text style={styles.cameraInfoMessage}>
@@ -66,7 +78,6 @@ const HomeScreen = () => {
         data={qrData}
         visible={openModal}
         onClose={handleCloseModal}
-        error=""
       />
     </View>
   );

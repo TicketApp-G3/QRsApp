@@ -38,8 +38,19 @@ const apiProvider = () => {
     });
   };
 
+  const scanQR = async ({ ticketId, onSuccess, onFailure }) => {
+    request({
+      method: 'post',
+      body: ticketId,
+      url: '/scanQr',
+      onSuccess,
+      onFailure,
+    });
+  };
+
   return {
     health,
+    scanQR,
   };
 };
 

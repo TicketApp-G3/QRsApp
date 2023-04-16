@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { dateTimeFormatter } from '../utils/formatters';
 
-const ScanResultModal = ({ visible, onClose, data = {}, error = '' }) => {
-  const { eventId, eventTitle, status, userId, userName } = data;
+const ScanResultModal = ({ visible, onClose, data = {} }) => {
+  console.log(data);
+  const { eventId, eventTitle, status, userId, userName, error } = data;
+  const currentDate = dateTimeFormatter(new Date());
 
   return (
     <Modal
@@ -41,7 +44,9 @@ const ScanResultModal = ({ visible, onClose, data = {}, error = '' }) => {
           <View style={styles.modalInfoContainer}>
             <Text style={styles.modalTitleInfo}>
               Dueño de la entrada{'\n'}
-              <Text style={styles.modalInfo}>{userName}</Text>
+              <Text style={styles.modalInfo}>
+                {userName} ({userId})
+              </Text>
             </Text>
 
             <Text style={styles.modalTitleInfo}>
@@ -51,7 +56,7 @@ const ScanResultModal = ({ visible, onClose, data = {}, error = '' }) => {
 
             <Text style={styles.modalTitleInfo}>
               Fecha de escaneo {'\n'}
-              <Text style={styles.modalInfo}>{userName}</Text>
+              <Text style={styles.modalInfo}>{currentDate}</Text>
             </Text>
           </View>
         )}
