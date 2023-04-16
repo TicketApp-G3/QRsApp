@@ -10,7 +10,6 @@ const StackNavigator = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        statusBarTranslucent: false,
         contentStyle: styles.screenContainer,
       }}
     >
