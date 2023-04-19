@@ -5,13 +5,14 @@ import { Camera } from 'expo-camera';
 import ScanResultModal from '../components/ScanResultModal';
 import apiProvider from '../api/apiProvider';
 import IconButton from '../components/IconButton';
+import ScreenTitle from '../components/ScreenTitle';
 
 const ScanScreen = ({ route }) => {
   const [hasPermission, setHasPermission] = useState(false);
   const [qrData, setQrData] = useState();
   const [openCamera, setOpenCamera] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { selectedEventId } = route.params;
+  const { selectedEventId, eventTitle } = route.params;
 
   const getCameraPermissions = async () => {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -49,29 +50,36 @@ const ScanScreen = ({ route }) => {
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.title}> Escanea el QR</Text>
-      <View style={styles.cameraContainer}>
-        {openCamera ? (
-          <Camera
-            style={styles.cameraPreview}
-            ratio="1:1"
-            barCodeScannerSettings={{
-              barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
-            }}
-            onBarCodeScanned={hasPermission ? mockedBarCodeScanned : undefined}
-          />
-        ) : (
-          <Text style={styles.cameraInfoMessage}>
-            Presione el botón para escanear
-          </Text>
-        )}
-        <Image
-          source={require('../assets/qrFrame.png')}
-          style={styles.qrFrame}
-        />
+      <ScreenTitle
+        title="Escanea el QR"
+        subtitle="Presione el botón para escanear el QR de la entrada."
+        canGoBack
+      />
+      <View style={styles.eventTitleContainer}>
+        <Text style={styles.eventTitleLabel}>Evento</Text>
+        <Text style={styles.eventTitle}>{eventTitle}</Text>
       </View>
-
-      <IconButton onPress={handlePressScanButton} iconName="qr-code" />
+      <View style={styles.qrContainer}>
+        <View style={styles.cameraContainer}>
+          {openCamera && (
+            <Camera
+              style={styles.cameraPreview}
+              ratio="1:1"
+              barCodeScannerSettings={{
+                barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+              }}
+              onBarCodeScanned={
+                hasPermission ? mockedBarCodeScanned : undefined
+              }
+            />
+          )}
+          <Image
+            source={require('../assets/qrFrame.png')}
+            style={styles.qrFrame}
+          />
+        </View>
+        <IconButton onPress={handlePressScanButton} iconName="qr-code" />
+      </View>
 
       <ScanResultModal
         data={qrData}
@@ -84,13 +92,25 @@ const ScanScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   screenContainer: {
-    alignItems: 'center',
-    display: 'flex',
+    gap: 40,
     flex: 1,
-    justifyContent: 'space-around',
+  },
+  eventTitle: {
+    fontSize: 20,
+    color: '#212121',
+  },
+  eventTitleLabel: {
+    fontSize: 34,
+    fontWeight: 'bold',
+    color: '#212121',
+  },
+  qrContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
   },
   cameraContainer: {
-    backgroundColor: '#D9D9D9',
+    backgroundColor: '#F1F1F1',
     height: 300,
     aspectRatio: 1,
     alignItems: 'center',

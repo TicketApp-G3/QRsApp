@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingVertical: 60,
     paddingHorizontal: 20,
+    paddingBottom: 20,
     position: 'relative',
   },
 });

@@ -7,12 +7,15 @@ const EventCard = ({ event }) => {
   const navigation = useNavigation();
 
   const handleClick = () =>
-    navigation.navigate('ScanScreen', { selectedEventId: id });
+    navigation.navigate('ScanScreen', {
+      selectedEventId: id,
+      eventTitle: title,
+    });
 
   return (
     <TouchableOpacity style={styles.cardContainer} onPress={handleClick}>
       <Text style={styles.eventTitle}>{title}</Text>
-      <Icon name="qr-code" color="#000000" size={25} />
+      <Icon name="qr-code" color="#212121" size={25} />
     </TouchableOpacity>
   );
 };
@@ -24,7 +27,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 20,
     paddingHorizontal: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     elevation: 5,
     alignItems: 'center',
     borderRadius: 10,
