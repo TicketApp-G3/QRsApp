@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import apiProvider from '../api/apiProvider';
 import ScreenTitle from '../components/ScreenTitle';
 import EventCard from '../components/EventCard';
 
 const HomeScreen = () => {
+  const [events, setEvents] = useState([]);
+
   const getEvents = async () => {
-    console.log('asndjas');
+    apiProvider.getEvents({
+      ownerId: 1,
+      onSuccess: (data) => setEvents(data),
+    });
   };
 
-  const events = [];
+  useEffect(() => {
+    getEvents();
+  }, []);
 
   return (
     <View style={styles.screenContainer}>
