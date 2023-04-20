@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import apiProvider from '../api/apiProvider';
 import ScreenTitle from '../components/ScreenTitle';
 import EventCard from '../components/EventCard';
@@ -9,20 +9,7 @@ const HomeScreen = () => {
     console.log('asndjas');
   };
 
-  const events = [
-    {
-      id: '1',
-      title: 'Título del evento',
-    },
-    {
-      id: '2',
-      title: 'Título del evento',
-    },
-    {
-      id: '3',
-      title: 'Título del evento',
-    },
-  ];
+  const events = [];
 
   return (
     <View style={styles.screenContainer}>
@@ -31,9 +18,13 @@ const HomeScreen = () => {
         subtitle="Seleccione el evento para poder escanear las entradas del mismo."
       />
       <ScrollView style={styles.eventsContainer}>
-        {events.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))}
+        {!events.length ? (
+          <Text style={styles.noEventsText}>
+            No tienes eventos activos en este momento
+          </Text>
+        ) : (
+          events.map((event) => <EventCard key={event.id} event={event} />)
+        )}
       </ScrollView>
     </View>
   );
@@ -42,6 +33,12 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   screenContainer: {
     gap: 40,
+  },
+  noEventsText: {
+    fontWeight: 'bold',
+    fontSize: 25,
+    color: '#E0E0E0',
+    textAlign: 'center',
   },
 });
 
