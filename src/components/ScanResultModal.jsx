@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 import { dateTimeFormatter } from '../utils/formatters';
-import IconButton from './IconButton';
+import CustomButton from './CustomButton';
 
 const ScanResultModal = ({ visible, onClose, data = {} }) => {
   const { eventId, eventTitle, status, userId, userName, error } = data;
   const currentDate = dateTimeFormatter(new Date());
+  const navigation = useNavigation();
+
+  const goBack = () => navigation.goBack();
 
   return (
     <Modal
@@ -61,11 +65,10 @@ const ScanResultModal = ({ visible, onClose, data = {} }) => {
           </View>
         )}
 
-        <IconButton
-          onPress={onClose}
-          style={styles.backButton}
-          iconName="home"
-        />
+        <View style={styles.buttonsContainer}>
+          <CustomButton title="Home" variant="outlined" onPress={goBack} />
+          <CustomButton title="Escanear de nuevo" onPress={onClose} />
+        </View>
       </View>
     </Modal>
   );
@@ -86,7 +89,8 @@ const styles = StyleSheet.create({
     width: '90%',
     marginHorizontal: '5%',
     marginVertical: '40%',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
     borderRadius: 10,
     display: 'flex',
     flexDirection: 'column',
@@ -112,14 +116,18 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 300,
   },
-  backButton: {
-    position: 'absolute',
-    bottom: 40,
-    alignSelf: 'center',
-  },
   modalInfoContainer: {
     display: 'flex',
     gap: 20,
+  },
+  buttonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
+    position: 'absolute',
+    bottom: 40,
+    alignSelf: 'center',
   },
 });
 

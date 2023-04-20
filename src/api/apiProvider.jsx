@@ -38,6 +38,15 @@ const apiProvider = () => {
     });
   };
 
+  const getEvents = async ({ ownerId, onSuccess, onFailure }) => {
+    request({
+      method: 'get',
+      url: `/events/${ownerId}`,
+      onSuccess,
+      onFailure,
+    });
+  };
+
   const scanQR = async ({ ticketId, onSuccess, onFailure }) => {
     request({
       method: 'post',
@@ -51,6 +60,7 @@ const apiProvider = () => {
   return {
     health,
     scanQR,
+    getEvents,
   };
 };
 
