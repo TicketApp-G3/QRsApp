@@ -1,7 +1,7 @@
 import { Express } from 'express';
-import { TicketsRouter } from './tickets';
+import { TicketRouter } from './tickets';
 
 export function registerRouters(app: Express) {
   app.get('/health', (_, res) => res.status(200).send());
-  app.use('/tickets', TicketsRouter());
+  app.use('/tickets', TicketRouter());
 }

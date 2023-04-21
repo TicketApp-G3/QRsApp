@@ -1,24 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateDto = void 0;
-const class_transformer_1 = require("class-transformer");
-const class_validator_1 = require("class-validator");
-function validateDto(type, skipMissingProperties = false) {
+exports.validateSchema = exports.FieldOptions = void 0;
+var FieldOptions;
+(function (FieldOptions) {
+    FieldOptions["body"] = "body";
+    FieldOptions["params"] = "params";
+    FieldOptions["query"] = "query";
+})(FieldOptions = exports.FieldOptions || (exports.FieldOptions = {}));
+const validateSchema = (joiSchema, properties) => {
     return (req, res, next) => {
-        const dtoObject = (0, class_transformer_1.plainToInstance)(type, req.body);
-        (0, class_validator_1.validate)(dtoObject, { skipMissingProperties }).then((errors) => {
-            if (errors.length > 0) {
-                const dtoErrors = {};
-                errors.map((error) => (dtoErrors[error.property] = Object.values(error.constraints)));
-                res.setHeader('Content-Type', 'application/json');
-                res.status(400).send(JSON.stringify(dtoErrors));
-            }
-            else {
-                req.body = dtoObject;
-                next();
-            }
+        let fields = {};
+        properties.forEach((property) => {
+            fields = Object.assign(Object.assign({}, fields), req[property]);
         });
+        const { error } = joiSchema.validate(fields, { abortEarly: false });
+        const valid = error == null;
+        if (valid) {
+            next();
+        }
+        else {
+            const { details } = error;
+            const errors = details.map((detail) => {
+                return {
+                    message: detail.message,
+                    field: detail.path[0],
+                };
+            });
+            res.setHeader("Content-Type", "application/json");
+            res.status(400).send(JSON.stringify(errors));
+        }
     };
-}
-exports.validateDto = validateDto;
+};
+exports.validateSchema = validateSchema;
 //# sourceMappingURL=validate-dto.middleware.js.map

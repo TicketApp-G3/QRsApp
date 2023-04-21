@@ -14,7 +14,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./snake-to-camel.middleware"), exports);
-__exportStar(require("./validate-dto.middleware"), exports);
-__exportStar(require("./http-exception.middleware"), exports);
+__exportStar(require("./getTickets.dto"), exports);
+__exportStar(require("./ticket.dto"), exports);
 //# sourceMappingURL=index.js.map
