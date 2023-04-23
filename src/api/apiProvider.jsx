@@ -1,10 +1,7 @@
 import axios from 'axios';
 
 const apiProvider = () => {
-  const baseURL =
-    import.meta.env.VITE_ENV === 'production'
-      ? 'https://ticket-app-ms-events.onrender.com'
-      : 'http://localhost:8080';
+  const baseURL = 'http://192.168.1.35:8083';
 
   const request = async ({
     method,
@@ -47,11 +44,11 @@ const apiProvider = () => {
     });
   };
 
-  const scanQR = async ({ ticketId, onSuccess, onFailure }) => {
+  const validateQR = async ({ ticketId, onSuccess, onFailure }) => {
     request({
       method: 'post',
-      body: ticketId,
-      url: '/scanQr',
+      body: { ticketId },
+      url: '/tickets/validate',
       onSuccess,
       onFailure,
     });
@@ -59,7 +56,7 @@ const apiProvider = () => {
 
   return {
     health,
-    scanQR,
+    validateQR,
     getEvents,
   };
 };

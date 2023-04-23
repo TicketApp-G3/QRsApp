@@ -6,7 +6,7 @@ const CustomButton = ({ title, onPress, variant = 'contained' }) => {
       style={[styles.buttonContainer, styles[variant]]}
       onPress={onPress}
     >
-      <Text style={[styles.text, styles.text[variant]]}>{title}</Text>
+      <Text style={[styles.text, styles[`text_${variant}`]]}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -28,13 +28,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: 'bold',
-
-    outlined: {
-      color: '#DB162F',
-    },
-    contained: {
-      color: '#FFFFFF',
-    },
+  },
+  text_outlined: {
+    color: '#DB162F',
+  },
+  text_contained: {
+    color: '#FFFFFF',
   },
 });
 

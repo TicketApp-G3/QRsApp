@@ -6,7 +6,7 @@ import { dateTimeFormatter } from '../utils/formatters';
 import CustomButton from './CustomButton';
 
 const ScanResultModal = ({ visible, onClose, data = {} }) => {
-  const { eventId, eventTitle, status, userId, userName, error } = data;
+  const { eventTitle, userId, userName, errorMessage, valid } = data;
   const currentDate = dateTimeFormatter(new Date());
   const navigation = useNavigation();
 
@@ -26,23 +26,23 @@ const ScanResultModal = ({ visible, onClose, data = {} }) => {
       />
 
       <View style={styles.modalContainer}>
-        {error ? (
+        {!valid ? (
           <Text style={[styles.errorTitle, styles.title]}>
             Error con el QR <Icon name="closecircle" size={30} />
           </Text>
         ) : (
           <Text style={[styles.successTitle, styles.title]}>
             QR Escaneado{' '}
-            <Icon name={error ? 'closecircle' : 'checkcircle'} size={30} />
+            <Icon name={!valid ? 'closecircle' : 'checkcircle'} size={30} />
           </Text>
         )}
 
-        {error ? (
+        {!valid ? (
           <View>
             <Text style={styles.modalTitleInfo}>
               Ocurrio un error al escanear el QR
             </Text>
-            <Text style={styles.modalInfo}>{error}</Text>
+            <Text style={styles.modalInfo}>{errorMessage}</Text>
           </View>
         ) : (
           <View style={styles.modalInfoContainer}>

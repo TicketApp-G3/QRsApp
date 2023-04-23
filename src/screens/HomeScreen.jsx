@@ -7,8 +7,8 @@ import EventCard from '../components/EventCard';
 const HomeScreen = () => {
   const [events, setEvents] = useState([]);
 
-  const getEvents = async () => {
-    apiProvider.getEvents({
+  const getEvents = () => {
+    apiProvider().getEvents({
       ownerId: 1,
       onSuccess: (data) => setEvents(data),
     });
