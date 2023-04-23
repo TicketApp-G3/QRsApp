@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerRouters = void 0;
-const tickets_1 = require("./tickets");
+const general_1 = require("./general");
 function registerRouters(app) {
     app.get('/health', (_, res) => res.status(200).send());
-    app.use('/tickets', (0, tickets_1.TicketRouter)());
+    app.use('/', (0, general_1.GeneralRouter)());
 }
 exports.registerRouters = registerRouters;
 //# sourceMappingURL=router.js.map

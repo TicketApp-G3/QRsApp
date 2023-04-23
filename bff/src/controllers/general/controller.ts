@@ -5,8 +5,8 @@ import { Request } from '@shared';
 
 class GeneralController {
   private logger;
-  private ticketsUrl = 'http://localhost:8080/tickets';
-  private eventsUrl = 'http://localhost:8080/events';
+  private ticketsUrl = process.env.TICKETS_URL;
+  private eventsUrl = process.env.EVENTS_URL;
 
   constructor() {
     this.logger = pinoLogger()
