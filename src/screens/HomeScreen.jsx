@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import apiProvider from '../api/apiProvider';
 import ScreenTitle from '../components/ScreenTitle';
 import EventCard from '../components/EventCard';
 
 const HomeScreen = () => {
   const [events, setEvents] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const getEvents = () => {
+    setRefreshing(true);
     apiProvider().getEvents({
       ownerId: 1,
       onSuccess: (data) => setEvents(data),
     });
+    setRefreshing(false);
   };
 
   useEffect(() => {
@@ -24,7 +33,12 @@ const HomeScreen = () => {
         title="Mis Eventos"
         subtitle="Seleccione el evento para poder escanear las entradas del mismo."
       />
-      <ScrollView style={styles.eventsContainer}>
+      <ScrollView
+        style={styles.eventsContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getEvents} />
+        }
+      >
         {!events.length ? (
           <Text style={styles.noEventsText}>
             No tienes eventos activos en este momento
