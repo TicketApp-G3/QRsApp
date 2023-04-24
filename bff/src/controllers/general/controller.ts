@@ -2,7 +2,7 @@ import pinoLogger from 'pino';
 import axios from 'axios';
 import { Request } from '@shared';
 
-const BASE_URL = "http://localhost:8080" // PROD
+const BASE_URL = "https://ticket-app-ms-events.onrender.com" // PROD
 // const BASE_URL = 'http://event_ms:8080'  // LOCAL
 
 class GeneralController {
