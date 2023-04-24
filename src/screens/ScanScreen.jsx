@@ -29,30 +29,24 @@ const ScanScreen = ({ route }) => {
   };
 
   const handleBarCodeScanned = async ({ data }) => {
-    const { eventId, id } = JSON.parse(data);
+    const { ticketId, eventId, userId, userName } = JSON.parse(data);
     setOpenCamera(false);
 
     if (eventId !== selectedEventId) {
       setQrData({
-        error: 'Este QR no pertenece a este evento',
+        errorMessage: 'Este QR no pertenece a este evento',
       });
     } else {
-      await apiProvider.scanQR({
-        ticketId: id,
-        onSuccess: (response) => {
-          setQrData(JSON.parse(data));
-          console.log(response);
+      await apiProvider().validateQR({
+        ticketId,
+        onSuccess: ({ message: errorMessage, valid }) => {
+          console.log({ errorMessage, valid });
+          setQrData({ errorMessage, valid, eventTitle, userId, userName });
         },
       });
     }
     setOpenModal(true);
   };
-
-  // const mockedBarCodeScanned = ({ data }) => {
-  //   setOpenCamera(false);
-  //   setQrData({ ...JSON.parse(data), error: 'El QR ya fue escaneado' });
-  //   setOpenModal(true);
-  // };
 
   return (
     <View style={styles.screenContainer}>
