@@ -29,19 +29,16 @@ const ScanScreen = ({ route }) => {
   };
 
   const handleBarCodeScanned = async ({ data }) => {
-    const { id, eventId, userId, userName } = JSON.parse(data);
+    const { ticketId, eventId, userId, userName } = JSON.parse(data);
     setOpenCamera(false);
 
-    const _eventId = '64456e5f49ff29738132e326';
-    const _id = '64456e5f49ff29738132e326';
-
-    if (_eventId !== selectedEventId) {
+    if (eventId !== selectedEventId) {
       setQrData({
-        error: 'Este QR no pertenece a este evento',
+        errorMessage: 'Este QR no pertenece a este evento',
       });
     } else {
       await apiProvider().validateQR({
-        ticketId: _id,
+        ticketId,
         onSuccess: ({ message: errorMessage, valid }) => {
           console.log({ errorMessage, valid });
           setQrData({ errorMessage, valid, eventTitle, userId, userName });
