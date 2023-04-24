@@ -13,7 +13,12 @@ class GeneralController {
   }
 
   public async getOwnerEvents(req: Request): Promise<any[]> {
-    const response = await axios.get(`${BASE_URL}/events`, { params: { ownerId: req.params.userId } })
+    const response = await axios.get(`${BASE_URL}/events`, {
+      params: {
+        ownerId: req.params.userId,
+        status: "IN_PROGRESS",
+      }
+    })
     return response.data
   }
 
