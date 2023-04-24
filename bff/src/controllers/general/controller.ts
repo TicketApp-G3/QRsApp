@@ -2,7 +2,7 @@ import pinoLogger from 'pino';
 import axios from 'axios';
 import { Request } from '@shared';
 
-const BASE_URL = "https://ticket-app-ms-events.onrender.com" // PROD
+const BASE_URL = "http://localhost:8080" // PROD
 // const BASE_URL = 'http://event_ms:8080'  // LOCAL
 
 class GeneralController {
@@ -13,7 +13,12 @@ class GeneralController {
   }
 
   public async getOwnerEvents(req: Request): Promise<any[]> {
-    const response = await axios.get(`${BASE_URL}/events`, { params: { ownerId: req.params.userId } })
+    const response = await axios.get(`${BASE_URL}/events`, {
+      params: {
+        ownerId: req.params.userId,
+        status: "IN_PROGRESS",
+      }
+    })
     return response.data
   }
 

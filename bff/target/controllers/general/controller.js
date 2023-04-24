@@ -15,27 +15,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generalController = exports.GeneralController = void 0;
 const pino_1 = __importDefault(require("pino"));
 const axios_1 = __importDefault(require("axios"));
+const BASE_URL = "http://localhost:8080";
 class GeneralController {
     constructor() {
-        this.ticketsUrl = process.env.TICKETS_URL;
-        this.eventsUrl = process.env.EVENTS_URL;
         this.logger = (0, pino_1.default)();
-    }
-    getTickets(req) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.get(this.ticketsUrl + `/${req.params.userId}`);
-            return response.data;
-        });
     }
     getOwnerEvents(req) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.get(this.eventsUrl, { params: { ownerId: req.params.userId } });
+            const response = yield axios_1.default.get(`${BASE_URL}/events`, {
+                params: {
+                    ownerId: req.params.userId,
+                    status: "IN_PROGRESS",
+                }
+            });
+            return response.data;
+        });
+    }
+    getTickets(req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield axios_1.default.get(`${BASE_URL}/tickets/${req.params.userId}`);
             return response.data;
         });
     }
     validateTicket(req) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.post(this.ticketsUrl + '/validate', { ticketId: req.body.ticketId });
+            const response = yield axios_1.default.post(`${BASE_URL}/tickets/validate`, { ticketId: req.body.ticketId });
             return response.data;
         });
     }
