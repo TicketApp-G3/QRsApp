@@ -1,0 +1,1 @@
+{"version":3,"file":"getTicketId.dto.js","sourceRoot":"","sources":["../../../../src/controllers/general/dtos/getTicketId.dto.ts"],"names":[],"mappings":";;;;;;AAAA,8CAAsB;AAEtB,MAAa,cAAc;CAE1B;AAFD,wCAEC;AAEY,QAAA,oBAAoB,GAAG,aAAG,CAAC,MAAM,CAAC;IAC7C,QAAQ,EAAE,aAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;CAClC,CAAC,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"getUserId.dto.js","sourceRoot":"","sources":["../../../../src/controllers/general/dtos/getUserId.dto.ts"],"names":[],"mappings":";;;;;;AAAA,8CAAsB;AAEtB,MAAa,YAAY;CAExB;AAFD,oCAEC;AAEY,QAAA,kBAAkB,GAAG,aAAG,CAAC,MAAM,CAAC;IAC3C,MAAM,EAAE,aAAG,CAAC,MAAM,EAAE,CAAC,QAAQ,EAAE;CAChC,CAAC,CAAC"}
