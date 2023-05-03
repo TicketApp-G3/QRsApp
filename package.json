@@ -11,6 +11,9 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|scss|less|html|md|graphql|mdx)\""
   },
   "dependencies": {
+    "@react-native-firebase/app": "^17.4.3",
+    "@react-native-firebase/auth": "^17.4.3",
+    "@react-native-google-signin/google-signin": "^9.0.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@types/react": "~18.0.27",
@@ -18,6 +21,7 @@
     "expo": "~48.0.11",
     "expo-barcode-scanner": "~12.3.2",
     "expo-camera": "~13.2.1",
+    "expo-dev-client": "~2.2.1",
     "expo-status-bar": "~1.4.4",
     "moment-timezone": "^0.5.43",
     "react": "18.2.0",
