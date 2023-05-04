@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "239998931541",
+    "project_id": "ticketapp-fiuba",
+    "storage_bucket": "ticketapp-fiuba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239998931541:android:dabd4b5f77011b4a85badc",
+        "android_client_info": {
+          "package_name": "com.g3.qrsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239998931541-74haas6ehpe4q6pdfrhn5s41pg7pmvl9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.g3.qrsapp",
+            "certificate_hash": "8422b1b968bfccabbebeabc2511ad0d10cf593ae"
+          }
+        },
+        {
+          "client_id": "239998931541-u875hog50dea42jlvni07cforafcji0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.g3.qrsapp",
+            "certificate_hash": "ea837070f3cc95bcba1bb5b07f32418d485d0edc"
+          }
+        },
+        {
+          "client_id": "239998931541-g19klat9tkuthil5d4jd22fvllcljp5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsMjbUP2eDDzYDo-OzUMyGlPxbVoewmwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239998931541-1f9d00koilisrf32mst8v4mgk3voamhc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "239998931541-282i4n5nevnmo65trdhdbdsisvs6euii.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anonymous.QRsApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

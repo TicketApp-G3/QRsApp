@@ -22,7 +22,7 @@ const apiProvider = () => {
     } catch (error) {
       const { status, statusText } = error.response;
       onFailure({ status, statusText });
-      console.error('Error Code: ', status, ' Message: ', statusText);
+      console.log('Error Code: ', status, ' Message: ', statusText);
     }
   };
 

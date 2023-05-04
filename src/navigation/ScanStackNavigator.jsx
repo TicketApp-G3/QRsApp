@@ -6,7 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
-const StackNavigator = () => {
+const ScanStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -14,7 +14,7 @@ const StackNavigator = () => {
         contentStyle: styles.screenContainer,
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ScanScreen" component={ScanScreen} />
     </Stack.Navigator>
   );
@@ -23,11 +23,8 @@ const StackNavigator = () => {
 const styles = StyleSheet.create({
   screenContainer: {
     backgroundColor: '#FFFFFF',
-    paddingVertical: 60,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
     position: 'relative',
   },
 });
 
-export default StackNavigator;
+export default ScanStackNavigator;
