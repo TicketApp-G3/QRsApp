@@ -9,6 +9,7 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Eventos"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
