@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityIndicator, StyleSheet } from 'react-native';
-import ScanScreen from '../screens/ScanScreen';
-import HomeScreen from '../screens/HomeScreen';
+import { ActivityIndicator } from 'react-native';
 import { AuthContext } from '../contexts/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,26 +17,8 @@ const StackNavigator = () => {
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
     </Stack.Navigator>
   ) : (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        contentStyle: styles.screenContainer,
-      }}
-    >
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="ScanScreen" component={ScanScreen} />
-    </Stack.Navigator>
+    <BottomTabNavigator />
   );
 };
-
-const styles = StyleSheet.create({
-  screenContainer: {
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 40,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    position: 'relative',
-  },
-});
 
 export default StackNavigator;
