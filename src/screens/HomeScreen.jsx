@@ -28,17 +28,16 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <View style={styles.screenContainer}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={getEvents} />
+      }
+    >
       <ScreenTitle
         title="Mis Eventos"
         subtitle="Seleccione el evento para poder escanear las entradas del mismo."
       />
-      <ScrollView
-        style={styles.eventsContainer}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={getEvents} />
-        }
-      >
+      <View style={styles.eventsContainer}>
         {!events.length ? (
           <Text style={styles.noEventsText}>
             No tienes eventos activos en este momento
@@ -46,16 +45,14 @@ const HomeScreen = () => {
         ) : (
           events.map((event) => <EventCard key={event.id} event={event} />)
         )}
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  screenContainer: {
-    gap: 40,
-  },
   noEventsText: {
+    marginTop: 50,
     fontWeight: 'bold',
     fontSize: 25,
     color: '#E0E0E0',
