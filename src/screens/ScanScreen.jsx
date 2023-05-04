@@ -40,7 +40,6 @@ const ScanScreen = ({ route }) => {
       await apiProvider().validateQR({
         ticketId,
         onSuccess: ({ message: errorMessage, valid }) => {
-          console.log({ errorMessage, valid });
           setQrData({ errorMessage, valid, eventTitle, userId, userName });
         },
       });
