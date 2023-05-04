@@ -1,21 +1,35 @@
-import React from 'react';
-import { RefreshControl, ScrollView, StyleSheet, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import ScreenTitle from '../components/ScreenTitle';
+import { AuthContext } from '../contexts/AuthContext';
 
 const SettingsScreen = () => {
+  const { logout } = useContext(AuthContext);
+
   return (
-    <ScrollView>
-      <Text>Settings</Text>
-    </ScrollView>
+    <View>
+      <ScreenTitle title="Opciones" />
+      <TouchableOpacity onPress={logout} style={styles.optionButton}>
+        <Text style={styles.text}>Cerrar sesión</Text>
+        <Icon name="logout" size={25} />
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  noEventsText: {
-    marginTop: 50,
-    fontWeight: 'bold',
-    fontSize: 25,
-    color: '#E0E0E0',
-    textAlign: 'center',
+  optionButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    elevation: 2,
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
+  text: {
+    fontSize: 20,
   },
 });
 

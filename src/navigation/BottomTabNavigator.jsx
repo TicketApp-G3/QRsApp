@@ -1,8 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import HomeScreen from '../screens/HomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ScanStackNavigator from './ScanStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,11 +26,16 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen
         name="Eventos"
-        component={HomeScreen}
+        component={ScanStackNavigator}
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({ color }) => (
-            <Icon name="qr-code" color={color} size={40} />
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name="qr-code"
+              color={color}
+              style={focused && styles.focused}
+              size={30}
+            />
           ),
         }}
       />
@@ -39,8 +44,13 @@ const BottomTabNavigator = () => {
         component={SettingsScreen}
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({ color }) => (
-            <Icon name="settings" color={color} size={40} />
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name="settings"
+              style={focused && styles.focused}
+              color={color}
+              size={30}
+            />
           ),
         }}
       />
@@ -55,6 +65,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
     position: 'relative',
+  },
+  focused: {
+    backgroundColor: '#F47870',
+    borderRadius: 100,
+    padding: 10,
   },
 });
 

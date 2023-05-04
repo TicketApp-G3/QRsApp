@@ -52,11 +52,13 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   noEventsText: {
-    marginTop: 50,
     fontWeight: 'bold',
     fontSize: 25,
     color: '#E0E0E0',
     textAlign: 'center',
+  },
+  eventsContainer: {
+    marginTop: 30,
   },
 });
 

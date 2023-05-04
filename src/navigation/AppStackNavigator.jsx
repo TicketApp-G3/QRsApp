@@ -7,7 +7,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 
 const Stack = createNativeStackNavigator();
 
-const StackNavigator = () => {
+const AppStackNavigator = () => {
   const { loggedUser, isCheckingAuth } = useContext(AuthContext);
 
   if (isCheckingAuth) return <ActivityIndicator />;
@@ -21,4 +21,4 @@ const StackNavigator = () => {
   );
 };
 
-export default StackNavigator;
+export default AppStackNavigator;
