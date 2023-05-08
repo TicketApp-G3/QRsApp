@@ -18,4 +18,5 @@ __exportStar(require("./middleware"), exports);
 __exportStar(require("./http"), exports);
 __exportStar(require("./exceptions"), exports);
 __exportStar(require("./route-handler"), exports);
+__exportStar(require("./user-platform"), exports);
 //# sourceMappingURL=index.js.map
