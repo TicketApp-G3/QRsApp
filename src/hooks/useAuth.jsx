@@ -6,18 +6,34 @@ import auth from '@react-native-firebase/auth';
 export const useAuth = () => {
   const [loggedUser, setloggedUser] = useState();
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '239998931541-g19klat9tkuthil5d4jd22fvllcljp5q.apps.googleusercontent.com',
+    });
+  }, []);
 
-  GoogleSignin.configure({
-    webClientId:
-      '239998931541-g19klat9tkuthil5d4jd22fvllcljp5q.apps.googleusercontent.com',
-  });
+  const getUserData = async () => {
+    const { user } = await GoogleSignin.getCurrentUser();
+
+    const formattedUserData = {
+      userId: user.id,
+      name: user.givenName,
+      lastName: user.familyName,
+      email: user.email,
+      profileImage: user.photo,
+    };
+
+    AsyncStorage.setItem('loggedUser', JSON.stringify(formattedUserData));
+    setloggedUser(formattedUserData);
+  };
 
   const checkUserIsAuth = async () => {
     setIsCheckingAuth(true);
     try {
       await auth().onAuthStateChanged((user) => {
         if (user) {
-          setloggedUser(user);
+          getUserData();
           setIsCheckingAuth(false);
         } else {
           setloggedUser(null);
@@ -36,10 +52,9 @@ export const useAuth = () => {
     try {
       const { idToken } = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-      const { user } = await auth().signInWithCredential(googleCredential);
+      await auth().signInWithCredential(googleCredential);
 
-      AsyncStorage.setItem('loggedUser', JSON.stringify(user));
-      setloggedUser(user);
+      getUserData();
     } catch (error) {
       console.log('login error: ', error);
     }
@@ -48,6 +63,7 @@ export const useAuth = () => {
   const logout = async () => {
     try {
       await auth().signOut();
+      await GoogleSignin.revokeAccess();
       AsyncStorage.removeItem('loggedUser');
       setloggedUser(null);
     } catch (error) {

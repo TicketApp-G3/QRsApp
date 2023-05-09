@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -9,15 +9,17 @@ import {
 import apiProvider from '../api/apiProvider';
 import ScreenTitle from '../components/ScreenTitle';
 import EventCard from '../components/EventCard';
+import { AuthContext } from '../contexts/AuthContext';
 
 const HomeScreen = () => {
   const [events, setEvents] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const { loggedUser } = useContext(AuthContext);
 
   const getEvents = () => {
     setRefreshing(true);
     apiProvider().getEvents({
-      ownerId: 1,
+      ownerId: loggedUser.userId,
       onSuccess: (data) => setEvents(data),
     });
     setRefreshing(false);
