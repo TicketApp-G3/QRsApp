@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import apiProvider from '../api/apiProvider';
 
 export const useAuth = () => {
   const [loggedUser, setloggedUser] = useState();
@@ -21,11 +22,21 @@ export const useAuth = () => {
       name: user.givenName,
       lastName: user.familyName,
       email: user.email,
+    };
+
+    const pageUserDate = {
+      ...formattedUserData,
       profileImage: user.photo,
     };
 
-    AsyncStorage.setItem('loggedUser', JSON.stringify(formattedUserData));
-    setloggedUser(formattedUserData);
+    apiProvider().login({
+      userData: formattedUserData,
+      onSuccess: () => {
+        AsyncStorage.setItem('loggedUser', JSON.stringify(pageUserDate));
+        setloggedUser(pageUserDate);
+      },
+      onFailure: () => setloggedUser(null),
+    });
   };
 
   const checkUserIsAuth = async () => {
