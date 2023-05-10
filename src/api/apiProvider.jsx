@@ -20,7 +20,7 @@ const apiProvider = () => {
       });
       onSuccess(data);
     } catch (error) {
-      const { status, statusText } = error.response;
+      const { status, statusText } = error.response || {};
       onFailure({ status, statusText });
       console.log('Error Code: ', status, ' Message: ', statusText);
     }
@@ -44,6 +44,16 @@ const apiProvider = () => {
     });
   };
 
+  const login = async ({ userData, onSuccess, onFailure }) => {
+    request({
+      method: 'post',
+      url: '/users',
+      body: userData,
+      onSuccess,
+      onFailure,
+    });
+  };
+
   const validateQR = async ({ ticketId, onSuccess, onFailure }) => {
     request({
       method: 'post',
@@ -58,6 +68,7 @@ const apiProvider = () => {
     health,
     validateQR,
     getEvents,
+    login,
   };
 };
 
