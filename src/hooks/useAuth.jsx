@@ -29,14 +29,16 @@ export const useAuth = () => {
       profileImage: user.photo,
     };
 
-    apiProvider().login({
-      userData: formattedUserData,
-      onSuccess: () => {
-        AsyncStorage.setItem('loggedUser', JSON.stringify(pageUserDate));
-        setloggedUser(pageUserDate);
-      },
-      onFailure: () => setloggedUser(null),
-    });
+    if (user) {
+      apiProvider().login({
+        userData: formattedUserData,
+        onSuccess: () => {
+          AsyncStorage.setItem('loggedUser', JSON.stringify(pageUserDate));
+          setloggedUser(pageUserDate);
+        },
+        onFailure: () => setloggedUser({}),
+      });
+    }
   };
 
   const checkUserIsAuth = async () => {
@@ -60,6 +62,7 @@ export const useAuth = () => {
     await GoogleSignin.hasPlayServices({
       showPlayServicesUpdateDialog: true,
     });
+
     try {
       const { idToken } = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
