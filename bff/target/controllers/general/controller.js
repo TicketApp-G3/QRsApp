@@ -15,14 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generalController = exports.GeneralController = void 0;
 const pino_1 = __importDefault(require("pino"));
 const axios_1 = __importDefault(require("axios"));
-const BASE_URL = "http://localhost:8080";
+const _shared_1 = require("@shared");
+const EVENTS_BASE_URL = "https://ticket-app-ms-events.onrender.com";
+const USERS_BASE_URL = 'http://event_ms:8080';
 class GeneralController {
     constructor() {
         this.logger = (0, pino_1.default)();
     }
     getOwnerEvents(req) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.get(`${BASE_URL}/events`, {
+            const response = yield axios_1.default.get(`${EVENTS_BASE_URL}/events`, {
                 params: {
                     ownerId: req.params.userId,
                     status: "IN_PROGRESS",
@@ -33,13 +35,19 @@ class GeneralController {
     }
     getTickets(req) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.get(`${BASE_URL}/tickets/${req.params.userId}`);
+            const response = yield axios_1.default.get(`${EVENTS_BASE_URL}/tickets/${req.params.userId}`);
             return response.data;
         });
     }
     validateTicket(req) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.post(`${BASE_URL}/tickets/validate`, { ticketId: req.body.ticketId });
+            const response = yield axios_1.default.post(`${EVENTS_BASE_URL}/tickets/validate`, { ticketId: req.body.ticketId });
+            return response.data;
+        });
+    }
+    login(req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield axios_1.default.post(`${USERS_BASE_URL}/users`, Object.assign(Object.assign({}, req.body), { platform: _shared_1.UserPlatforms.ORGANIZER_BACKOFFICE }));
             return response.data;
         });
     }

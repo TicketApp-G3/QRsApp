@@ -2,7 +2,7 @@ import { registerHandler, validateSchema, Request, FieldOptions } from '@shared'
 import { Router } from 'express'
 import { generalController } from './controller'
 import { StatusCodes } from 'http-status-codes'
-import { GetTicketIdDTOSchema, GetUserIdDTOSchema } from './dtos'
+import { GetTicketIdDTOSchema, GetUserIdDTOSchema, LoginDtoSchema } from './dtos'
 
 export function GeneralRouter() {
   const router = Router()
@@ -35,6 +35,12 @@ export function GeneralRouter() {
       generalController.getOwnerEvents(req),
       StatusCodes.OK
     )
+  );
+
+  router.post(
+    '/users',
+    validateSchema(LoginDtoSchema, [FieldOptions.body]),
+    registerHandler((req: Request) => generalController.login(req), StatusCodes.OK)
   );
 
   return router
