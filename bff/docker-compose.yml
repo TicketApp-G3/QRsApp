@@ -2,12 +2,12 @@ version: '3.9'
 
 services:
   app:
-    container_name: ticketAppBff
+    container_name: qrsAppBff
     build: .
     # command: ./scripts/run.sh
     ports:
-      - '${APP_PORT:-8080}:8080'
-      - '9229:9229' # Debug port
+      - '8083:8080'
+      - '9236:9229' # Debug port
     volumes:
       - ./src:/app/src
       - ./scripts:/app/scripts
