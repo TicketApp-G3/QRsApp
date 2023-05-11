@@ -15,28 +15,37 @@ export const useAuth = () => {
   }, []);
 
   const getUserData = async () => {
-    const { user } = await GoogleSignin.getCurrentUser();
+    // const { user } = await GoogleSignin.getCurrentUser();
+
+    // const formattedUserData = {
+    //   userId: user.id,
+    //   name: user.givenName,
+    //   lastName: user.familyName,
+    //   email: user.email,
+    // };
 
     const formattedUserData = {
-      userId: user.id,
-      name: user.givenName,
-      lastName: user.familyName,
-      email: user.email,
+      userId: 21321312312312,
+      name: 'asdasd',
+      lastName: 'asdasd',
+      email: 'asdas@gmail.com',
     };
 
-    const pageUserDate = {
-      ...formattedUserData,
-      profileImage: user.photo,
-    };
+    // const pageUserDate = {
+    //   ...formattedUserData,
+    //   profileImage: user.photo,
+    // };
 
+    const user = 'asdas';
     if (user) {
       apiProvider().login({
         userData: formattedUserData,
         onSuccess: () => {
-          AsyncStorage.setItem('loggedUser', JSON.stringify(pageUserDate));
-          setloggedUser(pageUserDate);
+          console.log('SUCCESS');
+          // AsyncStorage.setItem('loggedUser', JSON.stringify(pageUserDate));
+          // setloggedUser(pageUserDate);
         },
-        onFailure: () => setloggedUser({}),
+        onFailure: (data) => console.log('ERROR: ', data), // ESTA BIEN, HAY QUE VER PORQUE DEVUELVE 404 EL BACK
       });
     }
   };
@@ -87,6 +96,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     checkUserIsAuth();
+    // logout();
   }, []);
 
   return { loggedUser, isCheckingAuth, login, logout };

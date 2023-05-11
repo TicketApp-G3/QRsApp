@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiProvider = () => {
-  const baseURL = 'http://192.168.1.35:8083';
+  const baseURL = 'http://192.168.1.33:8083';
 
   const request = async ({
     method,
