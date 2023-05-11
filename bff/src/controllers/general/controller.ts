@@ -5,7 +5,7 @@ import { Request, UserPlatforms } from '@shared';
 const EVENTS_BASE_URL = "https://ticket-app-ms-events.onrender.com" // PROD
 // const EVENTS_BASE_URL = 'http://event_ms:8080'  // LOCAL
 
-const USERS_BASE_URL = 'http://event_ms:8084'  // LOCAL
+const USERS_BASE_URL = 'http://user_ms:8080'  // LOCAL
 
 class GeneralController {
   private logger;
@@ -37,7 +37,7 @@ class GeneralController {
   public async login(req: Request): Promise<any> {
     const response = await axios.post(`${USERS_BASE_URL}/users`, {
       ...req.body,
-      platform: UserPlatforms.ORGANIZER_BACKOFFICE,
+      platform: UserPlatforms.QRS_APP,
     })
     return response.data
   }

@@ -1,4 +1,4 @@
 
 export enum UserPlatforms {
-    ORGANIZER_BACKOFFICE = 'ORGANIZER_BACKOFFICE',
+    QRS_APP = 'QRS_APP',
 }

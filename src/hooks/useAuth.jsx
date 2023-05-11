@@ -6,7 +6,8 @@ import apiProvider from '../api/apiProvider';
 
 export const useAuth = () => {
   const [loggedUser, setloggedUser] = useState();
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(false);
+
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
@@ -15,37 +16,28 @@ export const useAuth = () => {
   }, []);
 
   const getUserData = async () => {
-    // const { user } = await GoogleSignin.getCurrentUser();
-
-    // const formattedUserData = {
-    //   userId: user.id,
-    //   name: user.givenName,
-    //   lastName: user.familyName,
-    //   email: user.email,
-    // };
+    const { user } = await GoogleSignin.getCurrentUser();
 
     const formattedUserData = {
-      userId: 21321312312312,
-      name: 'asdasd',
-      lastName: 'asdasd',
-      email: 'asdas@gmail.com',
+      userId: user.id,
+      name: user.givenName,
+      lastName: user.familyName,
+      email: user.email,
     };
 
-    // const pageUserDate = {
-    //   ...formattedUserData,
-    //   profileImage: user.photo,
-    // };
+    const pageUserDate = {
+      ...formattedUserData,
+      profileImage: user.photo,
+    };
 
-    const user = 'asdas';
     if (user) {
       apiProvider().login({
         userData: formattedUserData,
         onSuccess: () => {
-          console.log('SUCCESS');
-          // AsyncStorage.setItem('loggedUser', JSON.stringify(pageUserDate));
-          // setloggedUser(pageUserDate);
+          AsyncStorage.setItem('loggedUser', JSON.stringify(pageUserDate));
+          setloggedUser(pageUserDate);
         },
-        onFailure: (data) => console.log('ERROR: ', data), // ESTA BIEN, HAY QUE VER PORQUE DEVUELVE 404 EL BACK
+        onFailure: () => logout(),
       });
     }
   };
@@ -94,9 +86,10 @@ export const useAuth = () => {
     }
   };
 
+  apiProvider().health();
+
   useEffect(() => {
     checkUserIsAuth();
-    // logout();
   }, []);
 
   return { loggedUser, isCheckingAuth, login, logout };
