@@ -1,9 +1,11 @@
 import pinoLogger from 'pino';
 import axios from 'axios';
-import { Request } from '@shared';
+import { Request, UserPlatforms } from '@shared';
 
-const BASE_URL = "https://ticket-app-ms-events.onrender.com" // PROD
-// const BASE_URL = 'http://event_ms:8080'  // LOCAL
+const EVENTS_BASE_URL = "https://ticket-app-ms-events.onrender.com" // PROD
+// const EVENTS_BASE_URL = 'http://event_ms:8080'  // LOCAL
+
+const USERS_BASE_URL = 'http://user_ms:8080'  // LOCAL
 
 class GeneralController {
   private logger;
@@ -13,7 +15,7 @@ class GeneralController {
   }
 
   public async getOwnerEvents(req: Request): Promise<any[]> {
-    const response = await axios.get(`${BASE_URL}/events`, {
+    const response = await axios.get(`${EVENTS_BASE_URL}/events`, {
       params: {
         ownerId: req.params.userId,
         status: "IN_PROGRESS",
@@ -23,12 +25,20 @@ class GeneralController {
   }
 
   public async getTickets(req: Request): Promise<any[]> {
-    const response = await axios.get(`${BASE_URL}/tickets/${req.params.userId}`)
+    const response = await axios.get(`${EVENTS_BASE_URL}/tickets/${req.params.userId}`)
     return response.data
   }
 
   public async validateTicket(req: Request): Promise<any> {
-    const response = await axios.post(`${BASE_URL}/tickets/validate`, { ticketId: req.body.ticketId })
+    const response = await axios.post(`${EVENTS_BASE_URL}/tickets/validate`, { ticketId: req.body.ticketId })
+    return response.data
+  }
+
+  public async login(req: Request): Promise<any> {
+    const response = await axios.post(`${USERS_BASE_URL}/users`, {
+      ...req.body,
+      platform: UserPlatforms.QRS_APP,
+    })
     return response.data
   }
 

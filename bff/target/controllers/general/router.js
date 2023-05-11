@@ -11,6 +11,7 @@ function GeneralRouter() {
     router.post("/tickets/validate", (0, _shared_1.validateSchema)(dtos_1.GetTicketIdDTOSchema, [_shared_1.FieldOptions.body]), (0, _shared_1.registerHandler)((req) => controller_1.generalController.validateTicket(req), http_status_codes_1.StatusCodes.OK));
     router.get("/tickets/:userId", (0, _shared_1.validateSchema)(dtos_1.GetUserIdDTOSchema, [_shared_1.FieldOptions.params]), (0, _shared_1.registerHandler)((req) => controller_1.generalController.getTickets(req), http_status_codes_1.StatusCodes.OK));
     router.get("/events/:userId", (0, _shared_1.validateSchema)(dtos_1.GetUserIdDTOSchema, [_shared_1.FieldOptions.params]), (0, _shared_1.registerHandler)((req) => controller_1.generalController.getOwnerEvents(req), http_status_codes_1.StatusCodes.OK));
+    router.post('/users', (0, _shared_1.validateSchema)(dtos_1.LoginDtoSchema, [_shared_1.FieldOptions.body]), (0, _shared_1.registerHandler)((req) => controller_1.generalController.login(req), http_status_codes_1.StatusCodes.OK));
     return router;
 }
 exports.GeneralRouter = GeneralRouter;
