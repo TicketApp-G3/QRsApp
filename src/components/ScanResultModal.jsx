@@ -6,9 +6,23 @@ import { dateTimeFormatter } from '../utils/formatters';
 import CustomButton from './CustomButton';
 
 const ScanResultModal = ({ visible, onClose, data = {} }) => {
-  const { eventTitle, userId, userName, errorMessage, valid } = data;
+  const { ticketId, eventTitle, userId, userName, errorMessage, valid } = data;
   const currentDate = dateTimeFormatter(new Date());
   const navigation = useNavigation();
+
+  const getHashedId = () => {
+    if (!ticketId) return '';
+
+    const idUpper = ticketId.toUpperCase();
+    return (
+      idUpper[0] +
+      idUpper[5] +
+      idUpper[12] +
+      idUpper[18] +
+      idUpper[20] +
+      idUpper[23]
+    );
+  };
 
   const goBack = () => navigation.goBack();
 
@@ -27,9 +41,12 @@ const ScanResultModal = ({ visible, onClose, data = {} }) => {
 
       <View style={styles.modalContainer}>
         {!valid ? (
-          <Text style={[styles.errorTitle, styles.title]}>
-            Error con el QR <Icon name="closecircle" size={30} />
-          </Text>
+          <View>
+            <Text style={[styles.errorTitle, styles.title]}>
+              Error con el QR <Icon name="closecircle" size={30} />
+            </Text>
+            <Text style={styles.ticketId}>Ticket ID: {getHashedId()}</Text>
+          </View>
         ) : (
           <Text style={[styles.successTitle, styles.title]}>
             QR Escaneado{' '}
@@ -128,6 +145,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 40,
     alignSelf: 'center',
+  },
+  ticketId: {
+    fontSize: 20,
+    fontWeight: 500,
+    textAlign: 'center',
   },
 });
 
