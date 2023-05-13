@@ -40,19 +40,19 @@ const ScanResultModal = ({ visible, onClose, data = {} }) => {
       />
 
       <View style={styles.modalContainer}>
-        {!valid ? (
-          <View>
+        <View>
+          {!valid ? (
             <Text style={[styles.errorTitle, styles.title]}>
               Error con el QR <Icon name="closecircle" size={30} />
             </Text>
-            <Text style={styles.ticketId}>Ticket ID: {getHashedId()}</Text>
-          </View>
-        ) : (
-          <Text style={[styles.successTitle, styles.title]}>
-            QR Escaneado{' '}
-            <Icon name={!valid ? 'closecircle' : 'checkcircle'} size={30} />
-          </Text>
-        )}
+          ) : (
+            <Text style={[styles.successTitle, styles.title]}>
+              QR Escaneado{' '}
+              <Icon name={!valid ? 'closecircle' : 'checkcircle'} size={30} />
+            </Text>
+          )}
+          <Text style={styles.ticketId}>Ticket ID: {getHashedId()}</Text>
+        </View>
 
         {!valid ? (
           <View>
