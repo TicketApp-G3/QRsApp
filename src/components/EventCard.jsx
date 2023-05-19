@@ -7,7 +7,7 @@ const EventCard = ({ event }) => {
   const navigation = useNavigation();
 
   const handleClick = () =>
-    navigation.navigate('ScanScreen', {
+    navigation.navigate('TopTabNavigation', {
       selectedEventId: id,
       eventTitle: title,
     });

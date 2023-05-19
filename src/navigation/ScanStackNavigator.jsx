@@ -1,8 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
-import ScanScreen from '../screens/ScanScreen';
 import HomeScreen from '../screens/HomeScreen';
+import TopTabNavigation from './TopTabNavigation';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +15,7 @@ const ScanStackNavigator = () => {
       }}
     >
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="ScanScreen" component={ScanScreen} />
+      <Stack.Screen name="TopTabNavigation" component={TopTabNavigation} />
     </Stack.Navigator>
   );
 };
