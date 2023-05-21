@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import ScanResultModal from '../components/ScanResultModal';
 import apiProvider from '../api/apiProvider';
 import IconButton from '../components/IconButton';
-import ScreenTitle from '../components/ScreenTitle';
 
 const ScanScreen = ({ route }) => {
   const [hasPermission, setHasPermission] = useState(false);
@@ -56,15 +55,6 @@ const ScanScreen = ({ route }) => {
 
   return (
     <View style={styles.screenContainer}>
-      <ScreenTitle
-        title="Escanea el QR"
-        subtitle="Presione el botón para escanear el QR de la entrada."
-        canGoBack
-      />
-      <View style={styles.eventTitleContainer}>
-        <Text style={styles.eventTitleLabel}>Evento</Text>
-        <Text style={styles.eventTitle}>{eventTitle}</Text>
-      </View>
       <View style={styles.qrContainer}>
         <View style={styles.cameraContainer}>
           {openCamera && (
@@ -98,6 +88,7 @@ const ScanScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   screenContainer: {
+    backgroundColor: '#FFFFFF',
     gap: 40,
     flex: 1,
   },
@@ -114,6 +105,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flex: 1,
+    marginTop: 50,
   },
   cameraContainer: {
     backgroundColor: '#F1F1F1',
