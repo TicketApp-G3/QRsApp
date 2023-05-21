@@ -7,7 +7,7 @@ const ScanMetricsProgressCircle = ({ scannedAmount, totalAmount }) => {
   return (
     <View style={styles.graphicsContainer}>
       <View>
-        <Text style={styles.boldText}>Escaneados</Text>
+        <Text style={styles.boldText}>Escaneos totales</Text>
         <Text style={styles.regularText}>
           {scannedAmount} / {totalAmount}
         </Text>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 15,
   },
 });
 

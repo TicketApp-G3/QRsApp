@@ -3,16 +3,14 @@ import { useState } from 'react';
 import ScanMetricsBarChart from '../components/ScanMetricsBarChart';
 import ScanMetricsProgressCircle from '../components/ScanMetricsProgressCircle';
 import TimePickerButton from '../components/TimePickerButton';
-import { hourAndMinutesFormatter } from '../utils/formatters';
 
-const MetricsScreen = () => {
-  const today = hourAndMinutesFormatter(new Date());
-
-  const [timeFrom, setTimeFrom] = useState(today);
-  const [timeTo, setTimeTo] = useState(today);
-
+const MetricsScreen = ({ route }) => {
   const data = {
-    labels: [
+    timeFrom: '2023-05-20T22:00:05.305Z',
+    timeTo: '2023-05-21T23:30:05.305Z',
+    totalTicketAmount: 150,
+    totalScannedAmount: 142,
+    timeCheckpoints: [
       '2023-05-20T22:00:05.305Z',
       '2023-05-20T22:15:05.305Z',
       '2023-05-20T22:30:05.305Z',
@@ -21,29 +19,51 @@ const MetricsScreen = () => {
       '2023-05-20T23:15:05.305Z',
       '2023-05-20T23:30:05.305Z',
     ],
-    datasets: [
-      {
-        data: [20, 35, 45, 30, 55, 55, 150],
-      },
-    ],
+    dataByCheckpoints: [10, 21, 40, 14, 25, 30, 2],
   };
+
+  const {
+    timeFrom: initialTimeFrom,
+    timeTo: initialTimeTo,
+    totalTicketAmount,
+    totalScannedAmount,
+    timeCheckpoints,
+    dataByCheckpoints,
+  } = data;
+
+  const formattedBarChartData = {
+    labels: timeCheckpoints,
+    datasets: [{ data: dataByCheckpoints }],
+  };
+
+  const [timeFrom, setTimeFrom] = useState(new Date(initialTimeFrom));
+  const [timeTo, setTimeTo] = useState(new Date(initialTimeTo));
 
   const handleSelectTimeFrom = (time) => setTimeFrom(time);
   const handleSelectTimeTo = (time) => setTimeTo(time);
 
   return (
     <View style={styles.screenContainer}>
+      <ScanMetricsProgressCircle
+        scannedAmount={totalScannedAmount}
+        totalAmount={totalTicketAmount}
+      />
       <View style={styles.timeButtonsContainer}>
-        <Text style={styles.text}>Rango</Text>
+        <Text style={styles.text}>Rango de fechas</Text>
         <TimePickerButton
           onSelect={handleSelectTimeFrom}
           defaultTime={timeFrom}
+          minDate={new Date(initialTimeFrom)}
+          maxDate={new Date(initialTimeTo)}
         />
-        <Text style={styles.text}>a</Text>
-        <TimePickerButton onSelect={handleSelectTimeTo} defaultTime={timeTo} />
+        <TimePickerButton
+          onSelect={handleSelectTimeTo}
+          defaultTime={timeTo}
+          minDate={new Date(initialTimeFrom)}
+          maxDate={new Date(initialTimeTo)}
+        />
       </View>
-      <ScanMetricsProgressCircle scannedAmount={15} totalAmount={100} />
-      <ScanMetricsBarChart data={data} />
+      <ScanMetricsBarChart data={formattedBarChartData} />
     </View>
   );
 };
@@ -53,14 +73,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     flex: 1,
     paddingTop: 30,
-    gap: 40,
+    gap: 15,
     display: 'flex',
   },
   timeButtonsContainer: {
     display: 'flex',
-    flexDirection: 'row',
-    gap: 20,
-    alignItems: 'center',
+    gap: 8,
   },
   text: {
     fontSize: 24,

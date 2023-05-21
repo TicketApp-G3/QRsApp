@@ -9,7 +9,7 @@ export const timeFormatter = (time) => {
 export const dateTimeFormatter = (dateTime) => {
   return moment
     .tz(dateTime, timeZone)
-    .format('DD [de] MMMM [de] YYYY [a las] HH:mm [hs]');
+    .format('DD [de] MMMM [de] YYYY [a las] HH:mm');
 };
 
 export const hourAndMinutesFormatter = (dateTime) => {

@@ -1,35 +1,78 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { hourAndMinutesFormatter } from '../utils/formatters';
+import { dateTimeFormatter } from '../utils/formatters';
 
-const TimePickerButton = ({ defaultTime, onSelect }) => {
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
+const TimePickerButton = ({ defaultTime, onSelect, minDate, maxDate }) => {
+  const [dateTime, setDateTime] = useState(defaultTime);
 
-  const onChange = (e, selectedDate) => {
-    const currentDate = selectedDate;
-    setShow(false);
-    setDate(currentDate);
-    onSelect(hourAndMinutesFormatter(selectedDate));
+  const [time, setTime] = useState(defaultTime);
+  const [date, setDate] = useState(defaultTime);
+
+  const [dateLabel, setDateLabel] = useState(dateTimeFormatter(defaultTime));
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showTimePicker, setShowTimePicker] = useState(false);
+
+  const onChangeDate = ({ type }, selectedDate) => {
+    setShowDatePicker(false);
+
+    if (type !== 'dismissed') {
+      setDate(selectedDate);
+      setShowTimePicker(true);
+    }
   };
 
-  const showTimepicker = () => {
-    setShow(true);
+  const onChangeTime = ({ type }, selectedTime) => {
+    setShowTimePicker(false);
+
+    if (type !== 'dismissed') {
+      setTime(selectedTime);
+      setShowTimePicker(false);
+    }
   };
+
+  const handlePressButton = () => {
+    setShowDatePicker(true);
+  };
+
+  useEffect(() => {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth();
+    const day = date.getUTCDate();
+    const hour = time.getUTCHours();
+    const minute = time.getUTCMinutes();
+    const second = time.getUTCSeconds();
+    const millisecond = time.getUTCMilliseconds();
+
+    const newDateTime = new Date(
+      Date.UTC(year, month, day, hour, minute, second, millisecond)
+    );
+
+    onSelect(newDateTime);
+    setDateTime(newDateTime);
+    setDateLabel(dateTimeFormatter(newDateTime));
+  }, [time]);
 
   return (
     <View>
-      <TouchableOpacity style={styles.button} onPress={showTimepicker}>
-        <Text style={styles.buttonText}>{defaultTime}</Text>
+      <TouchableOpacity style={styles.button} onPress={handlePressButton}>
+        <Text style={styles.buttonText}>{dateLabel}</Text>
       </TouchableOpacity>
-      {show && (
+      {showDatePicker && (
         <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
+          value={dateTime}
+          mode="date"
+          onChange={onChangeDate}
+          minimumDate={minDate}
+          maximumDate={maxDate}
+        />
+      )}
+      {showTimePicker && (
+        <DateTimePicker
+          value={dateTime}
           mode="time"
           is24Hour
-          onChange={onChange}
+          onChange={onChangeTime}
         />
       )}
     </View>
