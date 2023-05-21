@@ -12,7 +12,7 @@ const ScreenTitle = ({ title, subtitle, canGoBack }) => {
       <View style={styles.titleContainer}>
         {canGoBack && (
           <TouchableOpacity onPress={handleGoBack}>
-            <Icon name="arrow-back" color="#DB162F" size={40} />
+            <Icon name="arrow-back" color="#DB162F" size={30} />
           </TouchableOpacity>
         )}
         <Text style={styles.title}>{title}</Text>
