@@ -64,11 +64,27 @@ const apiProvider = () => {
     });
   };
 
+  const getMetrics = async ({
+    eventId,
+    timeCheckpoints,
+    onSuccess,
+    onFailure,
+  }) => {
+    request({
+      method: 'get',
+      body: { timeCheckpoints },
+      url: `/tickets/metrics/${eventId}`,
+      onSuccess,
+      onFailure,
+    });
+  };
+
   return {
     health,
     validateQR,
     getEvents,
     login,
+    getMetrics,
   };
 };
 
