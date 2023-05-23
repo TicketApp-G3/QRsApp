@@ -1,39 +1,48 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
 import ScanMetricsBarChart from '../components/ScanMetricsBarChart';
 import ScanMetricsProgressCircle from '../components/ScanMetricsProgressCircle';
 import TimePickerButton from '../components/TimePickerButton';
+import apiProvider from '../api/apiProvider';
+import { splitDateRangeInNDates } from '../utils/metricsUtils';
 
 const MetricsScreen = ({ route }) => {
-  const data = {
-    timeFrom: '2023-05-20T22:00:05.305Z',
-    timeTo: '2023-05-21T23:30:05.305Z',
-    totalTicketAmount: 150,
-    totalScannedAmount: 142,
-    timeCheckpoints: [
-      '2023-05-20T22:00:05.305Z',
-      '2023-05-20T22:15:05.305Z',
-      '2023-05-20T22:30:05.305Z',
-      '2023-05-20T22:45:05.305Z',
-      '2023-05-20T23:00:05.305Z',
-      '2023-05-20T23:15:05.305Z',
-      '2023-05-20T23:30:05.305Z',
-    ],
-    dataByCheckpoints: [10, 21, 40, 14, 25, 30, 2],
-  };
-
+  const [isLoading, setIsLoading] = useState(true);
   const {
+    selectedEventId,
     timeFrom: initialTimeFrom,
     timeTo: initialTimeTo,
-    totalTicketAmount,
-    totalScannedAmount,
+  } = route.params;
+
+  const timeCheckpoints = splitDateRangeInNDates(
+    initialTimeFrom,
+    initialTimeTo,
+    8
+  );
+
+  const [data, setData] = useState({
     timeCheckpoints,
-    dataByCheckpoints,
-  } = data;
+  });
+
+  const getMetrics = () => {
+    setIsLoading(true);
+
+    apiProvider.getMetrics({
+      eventId: selectedEventId,
+      timeCheckpoints,
+      onSuccess: (metrics) => setData({ ...data, ...metrics }),
+    });
+
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    getMetrics();
+  }, []);
 
   const formattedBarChartData = {
     labels: timeCheckpoints,
-    datasets: [{ data: dataByCheckpoints }],
+    datasets: [{ data: data.dataByCheckpoints }],
   };
 
   const [timeFrom, setTimeFrom] = useState(new Date(initialTimeFrom));
@@ -44,26 +53,32 @@ const MetricsScreen = ({ route }) => {
 
   return (
     <View style={styles.screenContainer}>
-      <ScanMetricsProgressCircle
-        scannedAmount={totalScannedAmount}
-        totalAmount={totalTicketAmount}
-      />
-      <View style={styles.timeButtonsContainer}>
-        <Text style={styles.text}>Rango de fechas</Text>
-        <TimePickerButton
-          onSelect={handleSelectTimeFrom}
-          defaultTime={timeFrom}
-          minDate={new Date(initialTimeFrom)}
-          maxDate={new Date(initialTimeTo)}
-        />
-        <TimePickerButton
-          onSelect={handleSelectTimeTo}
-          defaultTime={timeTo}
-          minDate={new Date(initialTimeFrom)}
-          maxDate={new Date(initialTimeTo)}
-        />
-      </View>
-      <ScanMetricsBarChart data={formattedBarChartData} />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          <ScanMetricsProgressCircle
+            scannedAmount={data.totalScannedAmount}
+            totalAmount={data.totalTicketAmount}
+          />
+          <View style={styles.timeButtonsContainer}>
+            <Text style={styles.text}>Rango de fechas</Text>
+            <TimePickerButton
+              onSelect={handleSelectTimeFrom}
+              defaultTime={timeFrom}
+              minDate={new Date(initialTimeFrom)}
+              maxDate={new Date(initialTimeTo)}
+            />
+            <TimePickerButton
+              onSelect={handleSelectTimeTo}
+              defaultTime={timeTo}
+              minDate={new Date(initialTimeFrom)}
+              maxDate={new Date(initialTimeTo)}
+            />
+          </View>
+          <ScanMetricsBarChart data={formattedBarChartData} />
+        </>
+      )}
     </View>
   );
 };

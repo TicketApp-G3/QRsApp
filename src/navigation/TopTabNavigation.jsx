@@ -18,12 +18,12 @@ const TopTabNavigation = ({ route }) => {
         <Tab.Screen
           name="Escaneo"
           component={ScanScreen}
-          initialParams={route}
+          initialParams={route.params}
         />
         <Tab.Screen
           name="Métricas"
           component={MetricsScreen}
-          initialParams={route}
+          initialParams={route.params}
         />
       </Tab.Navigator>
     </>
