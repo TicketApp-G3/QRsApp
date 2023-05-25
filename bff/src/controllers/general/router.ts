@@ -49,7 +49,7 @@ export function GeneralRouter() {
     )
   );
 
-  router.post(
+  router.get(
     '/events/:userId',
     validateSchema(GetUserIdDTOSchema, [FieldOptions.params]),
     registerHandler(
