@@ -71,7 +71,7 @@ const apiProvider = () => {
     onFailure,
   }) => {
     request({
-      method: 'get',
+      method: 'post',
       body: { timeCheckpoints },
       url: `/tickets/metrics/${eventId}`,
       onSuccess,

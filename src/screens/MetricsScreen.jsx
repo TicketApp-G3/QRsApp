@@ -1,5 +1,6 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import ScanMetricsBarChart from '../components/ScanMetricsBarChart';
 import ScanMetricsProgressCircle from '../components/ScanMetricsProgressCircle';
 import TimePickerButton from '../components/TimePickerButton';
@@ -14,20 +15,23 @@ const MetricsScreen = ({ route }) => {
     timeTo: initialTimeTo,
   } = route.params;
 
-  const timeCheckpoints = splitDateRangeInNDates(
-    initialTimeFrom,
-    initialTimeTo,
-    8
+  const [timeFrom, setTimeFrom] = useState(new Date(initialTimeFrom));
+  const [timeTo, setTimeTo] = useState(new Date(initialTimeTo));
+
+  const [timeCheckpoints, setTimeCheckpoints] = useState(
+    splitDateRangeInNDates(initialTimeFrom, initialTimeTo, 6)
   );
 
   const [data, setData] = useState({
+    totalTicketAmount: 0,
+    totalScannedAmount: 0,
+    dataByCheckpoints: [],
     timeCheckpoints,
   });
 
   const getMetrics = () => {
     setIsLoading(true);
-
-    apiProvider.getMetrics({
+    apiProvider().getMetrics({
       eventId: selectedEventId,
       timeCheckpoints,
       onSuccess: (metrics) => setData({ ...data, ...metrics }),
@@ -36,17 +40,22 @@ const MetricsScreen = ({ route }) => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    getMetrics();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getMetrics();
+    }, [timeCheckpoints])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      setTimeCheckpoints(splitDateRangeInNDates(timeFrom, timeTo, 6));
+    }, [timeTo, timeFrom])
+  );
 
   const formattedBarChartData = {
     labels: timeCheckpoints,
     datasets: [{ data: data.dataByCheckpoints }],
   };
-
-  const [timeFrom, setTimeFrom] = useState(new Date(initialTimeFrom));
-  const [timeTo, setTimeTo] = useState(new Date(initialTimeTo));
 
   const handleSelectTimeFrom = (time) => setTimeFrom(time);
   const handleSelectTimeTo = (time) => setTimeTo(time);

@@ -1,10 +1,8 @@
 export const splitDateRangeInNDates = (timeFrom, timeTo, N) => {
   const fromDate = new Date(timeFrom);
   const toDate = new Date(timeTo);
-  console.log(toDate);
   const interval = (toDate - fromDate) / N;
   const dates = [];
-  console.log('INTERVALO: ', interval);
   dates.push(fromDate.toISOString());
 
   // eslint-disable-next-line no-plusplus
