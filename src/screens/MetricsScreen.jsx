@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import ScanMetricsBarChart from '../components/ScanMetricsBarChart';
 import ScanMetricsProgressCircle from '../components/ScanMetricsProgressCircle';
